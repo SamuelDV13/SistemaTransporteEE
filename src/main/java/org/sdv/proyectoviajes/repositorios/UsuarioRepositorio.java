@@ -77,6 +77,16 @@ public class UsuarioRepositorio implements Repositorio<Usuario> {
     @Override
     public void eliminar(Long id) throws SQLException {
 
+        try(PreparedStatement stmt = conexion.prepareStatement("DELETE FROM USUARIOS WHERE PERSONA_ID = ?")){
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
+
+        try(PreparedStatement stmt = conexion.prepareStatement("DELETE FROM PERSONAS WHERE PERSONA_ID = ?")){
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
+
     }
 
     @Override
