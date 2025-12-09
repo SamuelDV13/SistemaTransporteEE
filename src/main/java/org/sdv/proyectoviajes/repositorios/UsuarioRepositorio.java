@@ -3,11 +3,11 @@ package org.sdv.proyectoviajes.repositorios;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.OracleConn;
 import org.sdv.proyectoviajes.modelos.Usuario;
+import org.sdv.proyectoviajes.modelos.enumeradores.CargosUsuario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioRepositorio implements Repositorio<Usuario> {
 
@@ -90,7 +90,51 @@ public class UsuarioRepositorio implements Repositorio<Usuario> {
     }
 
     @Override
-    public void listar() throws SQLException {
+    public List<Usuario> buscarTodos() throws SQLException {
+        List<Usuario> listaUsuarios = new ArrayList<>();
 
+        try(Statement stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT P.PERSONA_ID, P.NOMBRE, P.APELLIDO_PATERNO, P.APELLIDO_MATERNO, P.TELEFONO, U.USERNAME, U.EMAIL, U.CARGO " +
+                                                    "FROM PERSONAS P INNER JOIN USUARIOS U ON P.PERSONA_ID = U.PERSONA_ID")){
+            while(rs.next()){
+                listaUsuarios.add(llenarUsuario(rs));
+            }
+        }
+
+        return listaUsuarios;
+    }
+
+    @Override
+    public Usuario buscarPorId(Long id) throws SQLException {
+
+        Usuario usuario = null;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT P.PERSONA_ID, P.NOMBRE, P.APELLIDO_PATERNO, P.APELLIDO_MATERNO, P.TELEFONO, U.USERNAME, U.EMAIL, U.CARGO " +
+                                                                    "FROM PERSONAS P INNER JOIN USUARIOS U ON P.PERSONA_ID = U.PERSONA_ID WHERE P.PERSONA_ID = ?")){
+            stmt.setLong(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    usuario = llenarUsuario(rs);
+                }
+            }
+
+        }
+
+        return usuario;
+    }
+
+
+    private Usuario llenarUsuario(ResultSet rs) throws SQLException {
+        Usuario usuario = new Usuario();
+        usuario.setId(rs.getLong("PERSONA_ID"));
+        usuario.setNombre(rs.getString("NOMBRE"));
+        usuario.setApellidoPaterno(rs.getString("APELLIDO_PATERNO"));
+        usuario.setApellidoMaterno(rs.getString("APELLIDO_MATERNO"));
+        usuario.setTelefono(rs.getString("TELEFONO"));
+        usuario.setUsername(rs.getString("USERNAME"));
+        usuario.setEmail(rs.getString("EMAIL"));
+        usuario.setCargo(CargosUsuario.valueOf(rs.getString("CARGO")));
+        return usuario;
     }
 }
