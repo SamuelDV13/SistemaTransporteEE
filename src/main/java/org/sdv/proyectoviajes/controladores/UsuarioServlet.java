@@ -42,7 +42,7 @@ public class UsuarioServlet extends HttpServlet {
 
         String accion = req.getParameter("accion");
 
-        if(accion.equals("guardar")){
+        if("guardar".equals(accion)){
             guardarUsuarios(req, resp);
         } else{
             listarUsuarios(req, resp);
@@ -70,7 +70,13 @@ public class UsuarioServlet extends HttpServlet {
 
     private void guardarUsuarios(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Long id = Long.parseLong(req.getParameter("id"));
+        long id;
+        try {
+            id = Long.parseLong(req.getParameter("id"));
+        } catch (NumberFormatException e) {
+            id = 0;
+        }
+
         String nombre = req.getParameter("nombre");
         String apellidoPaterno = req.getParameter("apellidoPaterno");
         String apellidoMaterno = req.getParameter("apellidoMaterno");
