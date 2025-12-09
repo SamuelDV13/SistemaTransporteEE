@@ -1,5 +1,6 @@
 package org.sdv.proyectoviajes.repositorios;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.OracleConn;
 import org.sdv.proyectoviajes.modelos.Usuario;
@@ -9,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
 public class UsuarioRepositorio implements RepositorioUsuarios {
 
     @Inject
