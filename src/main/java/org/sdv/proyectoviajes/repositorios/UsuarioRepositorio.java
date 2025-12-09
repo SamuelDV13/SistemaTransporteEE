@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioRepositorio implements Repositorio<Usuario> {
+public class UsuarioRepositorio implements RepositorioUsuarios {
 
     @Inject
     @OracleConn
@@ -26,10 +26,10 @@ public class UsuarioRepositorio implements Repositorio<Usuario> {
 
         if(esNuevo){
             sqlPersona = "INSERT INTO PERSONAS(NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO,  TELEFONO) VALUES (?, ?, ?, ?)";
-            sqlUsuario = "INSERT INTO USUARIOS(USERNAME, PASS, EMAIL, CARGO, PERSONA_ID) VALUES (?, ?, ?, ?, ?)";
+            sqlUsuario = "INSERT INTO USUARIOS(USERNAME, EMAIL, CARGO, PERSONA_ID, PASS) VALUES (?, ?, ?, ?, ?)";
         } else{
             sqlPersona = "UPDATE PERSONAS SET NOMBRE = ?, APELLIDO_PATERNO = ?, APELLIDO_MATERNO = ?, TELEFONO = ? WHERE PERSONA_ID = ?";
-            sqlUsuario = "UPDATE USUARIOS SET USERNAME = ?, PASS = ?, EMAIL = ?, CARGO = ? WHERE PERSONA_ID = ?";
+            sqlUsuario = "UPDATE USUARIOS SET USERNAME = ?, EMAIL = ?, CARGO = ? WHERE PERSONA_ID = ?";
         }
 
         PreparedStatement stmt;
@@ -64,10 +64,13 @@ public class UsuarioRepositorio implements Repositorio<Usuario> {
 
         try(PreparedStatement stmt2 = conexion.prepareStatement(sqlUsuario)){
             stmt2.setString(1, usuario.getUsername());
-            stmt2.setString(2, usuario.getPassword());
-            stmt2.setString(3, usuario.getEmail());
-            stmt2.setString(4, usuario.getCargo().toString());
-            stmt2.setLong(5, usuario.getId());
+            stmt2.setString(2, usuario.getEmail());
+            stmt2.setString(3, usuario.getCargo().toString());
+            stmt2.setLong(4, usuario.getId());
+
+            if(esNuevo){
+                stmt2.setString(5, usuario.getPassword());
+            }
 
             stmt2.executeUpdate();
         }
@@ -124,6 +127,19 @@ public class UsuarioRepositorio implements Repositorio<Usuario> {
         return usuario;
     }
 
+    @Override
+    public void cambiarPassword(long id, String nuevaPass) throws SQLException {
+
+        try(PreparedStatement stmt = conexion.prepareStatement("UPDATE USUARIOS SET PASS = ? WHERE PERSONA_ID = ?")){
+
+            stmt.setString(1, nuevaPass);
+            stmt.setLong(2, id);
+            stmt.executeUpdate();
+
+        }
+
+    }
+
 
     private Usuario llenarUsuario(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
@@ -137,4 +153,5 @@ public class UsuarioRepositorio implements Repositorio<Usuario> {
         usuario.setCargo(CargosUsuario.valueOf(rs.getString("CARGO")));
         return usuario;
     }
+
 }
