@@ -1,7 +1,7 @@
 package org.sdv.proyectoviajes.modelos.enumeradores;
 
 public enum CargosUsuario {
-    ADMINSTRADOR,
+    ADMINISTRADOR,
     LOGISTICA,
     MANTENIMIENTO
 }
