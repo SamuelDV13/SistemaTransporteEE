@@ -14,10 +14,11 @@
 
         <h2>${(usuario.id != null && usuario.id > 0) ? "Editar Usuario" : "Nuevo Usuario"}</h2>
 
-        <input type="hidden" name="accion" value="guardar">
-        <input type="hidden" name="id" value="${usuario.id}">
-
         <form action="${pageContext.request.contextPath}/usuarios" method="POST">
+
+            <input type="hidden" name="accion" value="guardar">
+            <input type="hidden" name="id" value="${usuario.id}">
+
             <div>
                 <label for="nombre">Nombre:</label>
                 <input type="text" name="nombre" id="nombre" value="${usuario.nombre}">
