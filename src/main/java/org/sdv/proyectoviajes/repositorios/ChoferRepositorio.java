@@ -75,7 +75,15 @@ public class ChoferRepositorio implements Repositorio<Chofer> {
 
     @Override
     public void eliminar(Long id) throws SQLException {
+        try(PreparedStatement stmt = conexion.prepareStatement("DELETE FROM CHOFERES WHERE PERSONA_ID = ?")){
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
 
+        try(PreparedStatement stmt = conexion.prepareStatement("DELETE FROM PERSONAS WHERE PERSONA_ID = ?")){
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
     }
 
     @Override
