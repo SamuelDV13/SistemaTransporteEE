@@ -1,9 +1,14 @@
 package org.sdv.proyectoviajes.modelos;
 
 import jakarta.enterprise.context.RequestScoped;
+import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 
 @RequestScoped
 public class Chofer extends Persona{
+
+    private int comision;
+    private Licencia licencia;
+    private EstadosChofer estado;
 
     public int getComision() {
         return comision;
@@ -21,6 +26,11 @@ public class Chofer extends Persona{
         this.licencia = licencia;
     }
 
-    private int comision;
-    private Licencia licencia;
+    public EstadosChofer getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadosChofer estado) {
+        this.estado = estado;
+    }
 }
