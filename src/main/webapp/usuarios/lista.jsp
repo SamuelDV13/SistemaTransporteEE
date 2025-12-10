@@ -11,23 +11,24 @@
 </head>
 <body>
 
-    <div>
-        <h2>Lista de Usuarios</h2>
+<div>
+    <h2>Lista de Usuarios</h2>
 
-        <a href="${pageContext.request.contextPath}/usuarios?accion=nuevo">Nuevo [+]</a>
+    <a href="${pageContext.request.contextPath}/usuarios?accion=nuevo">Nuevo [+]</a>
 
-        <table>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Usuario</th>
+            <th>Cargo</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+
+        <c:forEach var="usuario" items="${usuarios}">
             <tr>
-                <th>Nombre</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>Usuario</th>
-                <th>Cargo</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-            </tr>
-
-            <c:forEach var="usuario" items="${usuarios}">
                 <td>${usuario.nombre}</td>
                 <td>${usuario.apellidoPaterno}</td>
                 <td>${usuario.apellidoMaterno}</td>
@@ -35,12 +36,14 @@
                 <td>${usuario.cargo}</td>
                 <td><a href="${pageContext.request.contextPath}/usuarios?accion=editar&id=${usuario.id}">Editar</a></td>
                 <td><a onclick="return confirm('¿Deseas eliminar este usuario?')"
-                        href="${pageContext.request.contextPath}/usuarios?accion=eliminar&id=${usuario.id}">Eliminar</a></td>
-            </c:forEach>
+                       href="${pageContext.request.contextPath}/usuarios?accion=eliminar&id=${usuario.id}">Eliminar</a>
+                </td>
+            </tr>
+        </c:forEach>
 
-        </table>
+    </table>
 
-    </div>
+</div>
 
 </body>
 </html>
