@@ -100,7 +100,7 @@ public class UsuarioRepositorio implements RepositorioUsuarios {
 
         try(Statement stmt = conexion.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT P.PERSONA_ID, P.NOMBRE, P.APELLIDO_PATERNO, P.APELLIDO_MATERNO, P.TELEFONO, U.USERNAME, U.EMAIL, U.CARGO " +
-                                                    "FROM PERSONAS P INNER JOIN USUARIOS U ON P.PERSONA_ID = U.PERSONA_ID")){
+                                                    "FROM PERSONAS P INNER JOIN USUARIOS U ON P.PERSONA_ID = U.PERSONA_ID ORDER BY PERSONA_ID")){
             while(rs.next()){
                 listaUsuarios.add(llenarUsuario(rs));
             }
