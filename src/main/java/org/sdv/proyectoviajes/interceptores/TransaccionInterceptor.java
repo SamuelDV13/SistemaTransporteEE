@@ -5,7 +5,6 @@ import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 import org.sdv.proyectoviajes.config.OracleConn;
-import org.sdv.proyectoviajes.excepciones.ServicioException;
 
 import java.sql.Connection;
 
@@ -30,7 +29,7 @@ public class TransaccionInterceptor {
             return resultado;
         }catch(Exception e){
             conexion.rollback();
-            throw new ServicioException(e.getMessage());
+            throw e;
         }
     }
 
