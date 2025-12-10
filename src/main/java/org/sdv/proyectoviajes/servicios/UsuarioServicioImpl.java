@@ -1,7 +1,7 @@
 package org.sdv.proyectoviajes.servicios;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.sdv.proyectoviajes.config.AServicio;
 import org.sdv.proyectoviajes.excepciones.ServicioException;
 import org.sdv.proyectoviajes.modelos.Usuario;
 import org.sdv.proyectoviajes.repositorios.RepositorioUsuarios;
@@ -9,7 +9,7 @@ import org.sdv.proyectoviajes.repositorios.RepositorioUsuarios;
 import java.sql.SQLException;
 import java.util.List;
 
-@ApplicationScoped
+@AServicio
 public class UsuarioServicioImpl implements ServicioUsuarios{
 
     @Inject
