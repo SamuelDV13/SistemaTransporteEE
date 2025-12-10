@@ -3,7 +3,8 @@ package org.sdv.proyectoviajes.modelos;
 import jakarta.enterprise.context.RequestScoped;
 
 @RequestScoped
-public class Chofer {
+public class Chofer extends Persona{
+
     public int getComision() {
         return comision;
     }
