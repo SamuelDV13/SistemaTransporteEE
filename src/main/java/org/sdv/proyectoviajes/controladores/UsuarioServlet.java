@@ -98,6 +98,11 @@ public class UsuarioServlet extends HttpServlet {
         usuario.setCargo(CargosUsuario.valueOf(cargo));
 
         servicioUsuarios.guardarUsuario(usuario);
+
+        if(id > 0 && password != null && !password.isBlank()){
+            servicioUsuarios.cambiarPasswordUsuario(id,  password);
+        }
+
         resp.sendRedirect("usuarios");
 
     }
