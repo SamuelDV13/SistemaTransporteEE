@@ -1,16 +1,17 @@
 package org.sdv.proyectoviajes.repositorios;
 
 import jakarta.inject.Inject;
+import org.sdv.proyectoviajes.config.ARepositorio;
 import org.sdv.proyectoviajes.config.OracleConn;
 import org.sdv.proyectoviajes.modelos.Chofer;
 import org.sdv.proyectoviajes.modelos.Licencia;
-import org.sdv.proyectoviajes.modelos.Usuario;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ARepositorio
 public class ChoferRepositorio implements Repositorio<Chofer> {
 
     @Inject
