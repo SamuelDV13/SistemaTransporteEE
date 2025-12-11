@@ -3,11 +3,12 @@ package org.sdv.proyectoviajes.repositorios;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.OracleConn;
 import org.sdv.proyectoviajes.modelos.Chofer;
+import org.sdv.proyectoviajes.modelos.Licencia;
+import org.sdv.proyectoviajes.modelos.Usuario;
+import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChoferRepositorio implements Repositorio<Chofer> {
@@ -88,11 +89,71 @@ public class ChoferRepositorio implements Repositorio<Chofer> {
 
     @Override
     public List<Chofer> buscarTodos() throws SQLException {
-        return List.of();
+        List<Chofer> listaChoferes = new ArrayList<>();
+
+        try(Statement stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT P.PERSONA_ID, P.NOMBRE, P.APELLIDO_PATERNO, P.APELLIDO_MATERNO, P.TELEFONO, L.NUMERO_LICENCIA, C.ESTADO " +
+                                            "FROM PERSONAS P INNER JOIN CHOFERES C ON P.PERSONA_ID = C.PERSONA_ID " +
+                                            "LEFT JOIN LICENCIAS L ON C.LICENCIA_ID = L.LICENCIA_ID " +
+                                            "ORDER BY PERSONA_ID")){
+            while(rs.next()){
+                listaChoferes.add(llenarChoferResumido(rs));
+            }
+        }
+
+        return listaChoferes;
     }
 
     @Override
     public Chofer buscarPorId(Long id) throws SQLException {
-        return null;
+        Chofer chofer = null;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT P.PERSONA_ID, P.NOMBRE, P.APELLIDO_PATERNO, P.APELLIDO_MATERNO, P.TELEFONO, L.LICENCIA_ID, L.NUMERO_LICENCIA, L.FECHA_VENCIMIENTO, C.COMISION, C.ESTADO " +
+                                                                    "FROM PERSONAS P INNER JOIN CHOFERES C ON P.PERSONA_ID = C.PERSONA_ID " +
+                                                                    "LEFT JOIN LICENCIAS L ON C.LICENCIA_ID = L.LICENCIA_ID " +
+                                                                    "ORDER BY PERSONA_ID")){
+            stmt.setLong(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    chofer = llenarChoferCompleto(rs);
+                }
+            }
+
+        }
+
+        return chofer;
+    }
+
+
+    private Chofer llenarChoferResumido(ResultSet rs) throws SQLException {
+        Chofer chofer = new Chofer();
+        chofer.setId(rs.getLong("PERSONA_ID"));
+        chofer.setNombre(rs.getString("NOMBRE"));
+        chofer.setApellidoPaterno(rs.getString("APELLIDO_PATERNO"));
+        chofer.setApellidoMaterno(rs.getString("APELLIDO_MATERNO"));
+        chofer.setTelefono(rs.getString("TELEFONO"));
+        Licencia licencia = new Licencia();
+        licencia.setNumeroLicencia(rs.getString("NUMERO_LICENCIA"));
+        chofer.setLicencia(licencia);
+        chofer.setEstado(EstadosChofer.valueOf(rs.getString("ESTADO")));
+        return chofer;
+    }
+
+    private Chofer llenarChoferCompleto(ResultSet rs) throws SQLException {
+        Chofer chofer = new Chofer();
+        chofer.setId(rs.getLong("PERSONA_ID"));
+        chofer.setNombre(rs.getString("NOMBRE"));
+        chofer.setApellidoPaterno(rs.getString("APELLIDO_PATERNO"));
+        chofer.setApellidoMaterno(rs.getString("APELLIDO_MATERNO"));
+        chofer.setTelefono(rs.getString("TELEFONO"));
+        Licencia licencia = new Licencia();
+        licencia.setId(rs.getLong("LICENCIA_ID"));
+        licencia.setNumeroLicencia(rs.getString("NUMERO_LICENCIA"));
+        licencia.setFechaVencimiento(rs.getDate("FECHA_VENCIMIENTO").toLocalDate());
+        chofer.setLicencia(licencia);
+        chofer.setComision(rs.getInt("COMISION"));
+        chofer.setEstado(EstadosChofer.valueOf(rs.getString("ESTADO")));
+        return chofer;
     }
 }
