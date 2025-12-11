@@ -112,7 +112,7 @@ public class ChoferRepositorio implements Repositorio<Chofer> {
         try(PreparedStatement stmt = conexion.prepareStatement("SELECT P.PERSONA_ID, P.NOMBRE, P.APELLIDO_PATERNO, P.APELLIDO_MATERNO, P.TELEFONO, L.LICENCIA_ID, L.NUMERO_LICENCIA, L.FECHA_VENCIMIENTO, C.COMISION, C.ESTADO " +
                                                                     "FROM PERSONAS P INNER JOIN CHOFERES C ON P.PERSONA_ID = C.PERSONA_ID " +
                                                                     "LEFT JOIN LICENCIAS L ON C.LICENCIA_ID = L.LICENCIA_ID " +
-                                                                    "ORDER BY PERSONA_ID")){
+                                                                    "WHERE P.PERSONA_ID = ? ORDER BY PERSONA_ID")){
             stmt.setLong(1, id);
 
             try (ResultSet rs = stmt.executeQuery()){
