@@ -67,7 +67,7 @@ public class ChoferServlet extends HttpServlet {
         Long id = Long.parseLong(req.getParameter("id"));
         Chofer chofer = servicioChoferes.buscarPorIdChofer(id);
         req.setAttribute("chofer", chofer);
-        req.getRequestDispatcher("/chofer/formulario.jsp").forward(req, resp);
+        req.getRequestDispatcher("/choferes/formulario.jsp").forward(req, resp);
     }
 
     private void guardarChoferes(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
