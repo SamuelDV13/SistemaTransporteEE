@@ -10,43 +10,56 @@ import java.sql.SQLException;
 import java.util.List;
 
 @AServicio
-public class ServicioChoferImpl implements ServicioChoferes{
+public class ServicioChoferImpl implements ServicioChoferes {
 
     @Inject
     private Repositorio<Chofer> choferRepositorio;
 
+    @Inject
+    private ServicioLicencias servicioLicencias;
+
     @Override
     public void guardarChofer(Chofer chofer) {
-        try{
+        try {
+            if (chofer.getLicencia() != null) {
+                servicioLicencias.guardarLicencia(chofer.getLicencia());
+            }
             choferRepositorio.guardar(chofer);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new ServicioException(e.getMessage());
         }
     }
 
     @Override
     public void eliminarChofer(Long id) {
-        try{
+        try {
+
+            Chofer chofer = choferRepositorio.buscarPorId(id);
             choferRepositorio.eliminar(id);
-        }catch (SQLException e){
+
+            if(chofer.getLicencia() != null && chofer.getLicencia().getId() != null) {
+                servicioLicencias.eliminarLicencia(chofer.getLicencia().getId());
+            }
+
+        } catch (SQLException e) {
             throw new ServicioException(e.getMessage());
         }
     }
 
     @Override
     public List<Chofer> buscarTodosChoferes() {
-        try{
+        try {
             return choferRepositorio.buscarTodos();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new ServicioException(e.getMessage());
         }
     }
 
     @Override
     public Chofer buscarPorIdChofer(Long id) {
-        try{
+        try {
             return choferRepositorio.buscarPorId(id);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new ServicioException(e.getMessage());
         }
     }
