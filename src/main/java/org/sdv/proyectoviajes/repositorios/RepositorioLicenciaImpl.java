@@ -68,11 +68,35 @@ public class RepositorioLicenciaImpl implements Repositorio<Licencia> {
 
     @Override
     public List<Licencia> buscarTodos() throws SQLException {
+        //TODO: Implementar consulta a la BD. Retorno de lista vacia para evitar errores.
         return List.of();
     }
 
     @Override
     public Licencia buscarPorId(Long id) throws SQLException {
-        return null;
+
+        Licencia licencia = null;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT LICENCIA_ID, NUMERO_LICENCIA, FECHA_VENCIMIENTO FROM LICENCIAS WHERE LICENCIA_ID = ?")){
+
+            stmt.setLong(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()){
+                if (rs.next()) {
+                    licencia = llenarLicencia(rs);
+                }
+            }
+        }
+
+        return licencia;
+
+    }
+
+    private Licencia llenarLicencia(ResultSet rs) throws SQLException {
+        Licencia licencia = new Licencia();
+        licencia.setId(rs.getLong("LICENCIA_ID"));
+        licencia.setNumeroLicencia(rs.getString("NUMERO_LICENCIA"));
+        licencia.setFechaVencimiento(rs.getDate("FECHA_VENCIMIENTO").toLocalDate());
+        return licencia;
     }
 }
