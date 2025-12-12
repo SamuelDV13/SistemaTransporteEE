@@ -59,6 +59,11 @@ public class RepositorioLicenciaImpl implements Repositorio<Licencia> {
     @Override
     public void eliminar(Long id) throws SQLException {
 
+        try(PreparedStatement stmt = conexion.prepareStatement("DELETE FROM LICENCIAS WHERE LICENCIA_ID = ?")){
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
+
     }
 
     @Override
