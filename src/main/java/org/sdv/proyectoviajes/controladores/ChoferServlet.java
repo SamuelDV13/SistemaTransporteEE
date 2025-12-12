@@ -76,17 +76,31 @@ public class ChoferServlet extends HttpServlet {
         try {
             id = Long.parseLong(req.getParameter("id"));
         } catch (NumberFormatException e) {
-            id = 0;
+            id = 0L;
         }
 
         String nombre = req.getParameter("nombre");
         String apellidoPaterno = req.getParameter("apellidoPaterno");
         String apellidoMaterno = req.getParameter("apellidoMaterno");
         String telefono = req.getParameter("telefono");
-        Long licencia_id = Long.valueOf(req.getParameter("licencia_id"));
+
+        long licencia_id;
+        try {
+            licencia_id = Long.parseLong(req.getParameter("licencia_id"));
+        }catch (NumberFormatException e){
+            licencia_id = 0L;
+        }
+
         String numero_licencia = req.getParameter("numero_licencia");
         String fecha_vencimiento = req.getParameter("fecha_vencimiento");
-        int comision = Integer.parseInt(req.getParameter("comision"));
+
+        int comision;
+        try{
+            comision= Integer.parseInt(req.getParameter("comision"));
+        } catch (NumberFormatException e){
+            comision = 0;
+        }
+
         String estado = req.getParameter("estado");
 
         Chofer chofer = new Chofer();
@@ -95,15 +109,23 @@ public class ChoferServlet extends HttpServlet {
         chofer.setApellidoPaterno(apellidoPaterno);
         chofer.setApellidoMaterno(apellidoMaterno);
         chofer.setTelefono(telefono);
-
-        Licencia licencia = new  Licencia();
-        licencia.setId(licencia_id);
-        licencia.setNumeroLicencia(numero_licencia);
-        licencia.setFechaVencimiento(LocalDate.parse(fecha_vencimiento));
-
-        chofer.setLicencia(licencia);
         chofer.setComision(comision);
-        chofer.setEstado(EstadosChofer.valueOf(estado));
+
+        try {
+            chofer.setEstado(EstadosChofer.valueOf(estado));
+        }catch (Exception e){
+            chofer.setEstado(EstadosChofer.DISPONIBLE);
+        }
+
+        if(numero_licencia != null && !numero_licencia.isBlank() && fecha_vencimiento != null && !fecha_vencimiento.isBlank()) {
+            Licencia licencia = new  Licencia();
+            licencia.setId(licencia_id);
+            licencia.setNumeroLicencia(numero_licencia);
+            licencia.setFechaVencimiento(LocalDate.parse(fecha_vencimiento));
+            chofer.setLicencia(licencia);
+        } else{
+            chofer.setLicencia(null);
+        }
 
         servicioChoferes.guardarChofer(chofer);
 
