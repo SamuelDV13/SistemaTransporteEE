@@ -67,7 +67,11 @@ public class RepositorioChoferImpl implements Repositorio<Chofer> {
 
         try(PreparedStatement stmt2 = conexion.prepareStatement(sqlChofer)){
             stmt2.setInt(1, chofer.getComision());
-            stmt2.setLong(2, chofer.getLicencia().getId());
+            if(chofer.getLicencia() != null && chofer.getLicencia().getId() != null) {
+                stmt2.setLong(2, chofer.getLicencia().getId());
+            } else{
+                stmt2.setNull(2, Types.NUMERIC);
+            }
             stmt2.setString(3, chofer.getEstado().toString());
             stmt2.setLong(4, chofer.getId());
 
