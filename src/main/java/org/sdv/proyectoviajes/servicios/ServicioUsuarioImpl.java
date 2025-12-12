@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @AServicio
-public class UsuarioServicioImpl implements ServicioUsuarios{
+public class ServicioUsuarioImpl implements ServicioUsuarios{
 
     @Inject
     RepositorioUsuarios repositorioUsuarios;

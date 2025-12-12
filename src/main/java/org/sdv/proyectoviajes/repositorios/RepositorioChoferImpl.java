@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class ChoferRepositorio implements Repositorio<Chofer> {
+public class RepositorioChoferImpl implements Repositorio<Chofer> {
 
     @Inject
     @OracleConn

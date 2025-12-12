@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class UsuarioRepositorio implements RepositorioUsuarios {
+public class RepositorioUsuarioImpl implements RepositorioUsuarios {
 
     @Inject
     @OracleConn
