@@ -37,7 +37,7 @@ public class ServicioChoferImpl implements ServicioChoferes {
             Chofer chofer = choferRepositorio.buscarPorId(id);
             choferRepositorio.eliminar(id);
 
-            if(chofer.getLicencia() != null && chofer.getLicencia().getId() != null) {
+            if (chofer.getLicencia() != null && chofer.getLicencia().getId() != null) {
                 servicioLicencias.eliminarLicencia(chofer.getLicencia().getId());
             }
 
@@ -62,5 +62,23 @@ public class ServicioChoferImpl implements ServicioChoferes {
         } catch (SQLException e) {
             throw new ServicioException(e.getMessage());
         }
+    }
+
+    @Override
+    public void desvincularLicencia(Long id) {
+        try {
+            Chofer chofer = choferRepositorio.buscarPorId(id);
+
+            if(chofer != null && chofer.getLicencia() != null) {
+                long licencia_id_borrar = chofer.getLicencia().getId();
+                chofer.setLicencia(null);
+                choferRepositorio.guardar(chofer);
+                servicioLicencias.eliminarLicencia(licencia_id_borrar);
+            }
+
+        } catch (SQLException e) {
+            throw new ServicioException(e.getMessage());
+        }
+
     }
 }

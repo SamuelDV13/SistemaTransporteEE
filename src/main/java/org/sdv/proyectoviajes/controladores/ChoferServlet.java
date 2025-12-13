@@ -34,6 +34,7 @@ public class ChoferServlet extends HttpServlet {
             case "nuevo" -> mostrarFormulario(req, resp);
             case "editar" -> mostrarFormularioEditar(req, resp);
             case "eliminar" -> eliminarChofer(req, resp);
+            case "remover" -> removerLicencia(req, resp);
             case "listar" -> listarChoferes(req, resp);
         }
 
@@ -137,6 +138,12 @@ public class ChoferServlet extends HttpServlet {
         Long id = Long.parseLong(req.getParameter("id"));
         servicioChoferes.eliminarChofer(id);
         resp.sendRedirect("choferes");
+    }
+
+    private void removerLicencia(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Long id = Long.parseLong(req.getParameter("id"));
+        servicioChoferes.desvincularLicencia(id);
+        resp.sendRedirect("choferes?accion=editar&id=" + id);
     }
 
 }

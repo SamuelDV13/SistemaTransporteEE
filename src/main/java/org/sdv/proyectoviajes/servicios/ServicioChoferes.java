@@ -9,4 +9,5 @@ public interface ServicioChoferes {
     void eliminarChofer(Long id);
     List<Chofer> buscarTodosChoferes();
     Chofer buscarPorIdChofer(Long id);
+    void desvincularLicencia(Long id);
 }
