@@ -8,6 +8,7 @@ import org.sdv.proyectoviajes.modelos.Licencia;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 
 import java.sql.*;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,7 +156,13 @@ public class RepositorioChoferImpl implements Repositorio<Chofer> {
         Licencia licencia = new Licencia();
         licencia.setId(rs.getLong("LICENCIA_ID"));
         licencia.setNumeroLicencia(rs.getString("NUMERO_LICENCIA"));
-        licencia.setFechaVencimiento(rs.getDate("FECHA_VENCIMIENTO").toLocalDate());
+
+        Date fecha = rs.getDate("FECHA_VENCIMIENTO");
+
+        if(fecha != null){
+            licencia.setFechaVencimiento(fecha.toLocalDate());
+        }
+
         chofer.setLicencia(licencia);
         chofer.setComision(rs.getInt("COMISION"));
         chofer.setEstado(EstadosChofer.valueOf(rs.getString("ESTADO")));
