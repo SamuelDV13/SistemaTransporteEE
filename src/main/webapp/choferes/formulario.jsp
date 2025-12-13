@@ -66,6 +66,10 @@
             </div>
 
             <div>
+                <a href="${pageContext.request.contextPath}/choferes?accion=remover&id=${chofer.id}">Desvincular licencia</a>
+            </div>
+
+            <div>
                 <input type="submit" value="${(chofer.id != null && chofer.id > 0) ? "Actualizar" : "Crear"}">
             </div>
 
