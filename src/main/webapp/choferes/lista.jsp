@@ -31,7 +31,7 @@
                 <tr>
                     <td>${chofer.nombre} ${chofer.apellidoPaterno} ${chofer.apellidoMaterno}</td>
                     <td>${chofer.telefono}</td>
-                    <td>${chofer.licencia.numeroLicencia}</td>
+                    <td>${(chofer.licencia.numeroLicencia != null) ? chofer.licencia.numeroLicencia : "Sin licencia"}</td>
                     <td>${chofer.estado}</td>
                     <td><a href="${pageContext.request.contextPath}/choferes?accion=editar&id=${chofer.id}">Editar</a></td>
                     <td><a href="${pageContext.request.contextPath}/choferes?accion=eliminar&id=${chofer.id}">Eliminar</a></td>
