@@ -16,7 +16,7 @@ public class Viaje {
     private String destino;
     private LocalDate fechaSalida;
     private LocalDate fechaEntrega;
-    private EstadosViaje estadosViaje;
+    private EstadosViaje estado;
     private BigDecimal costo;
 
     public Long getId() {
@@ -75,12 +75,12 @@ public class Viaje {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public EstadosViaje getEstadosViaje() {
-        return estadosViaje;
+    public EstadosViaje getEstado() {
+        return estado;
     }
 
-    public void setEstadosViaje(EstadosViaje estadosViaje) {
-        this.estadosViaje = estadosViaje;
+    public void setEstado(EstadosViaje estado) {
+        this.estado = estado;
     }
 
     public BigDecimal getCosto() {
