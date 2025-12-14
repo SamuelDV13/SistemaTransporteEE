@@ -21,7 +21,7 @@ public class RepositorioCamion implements Repositorio<Camion>{
     public void guardar(Camion camion) throws SQLException {
 
         String sqlChofer;
-        boolean esNuevo = camion.getId() != null || camion.getId() <= 0;
+        boolean esNuevo = camion.getId() == null || camion.getId() <= 0;
 
         if(esNuevo){
             sqlChofer = "INSERT INTO CAMIONES (PLACA, MODELO, CAPACIDAD, ESTADO) VALUES (?, ?, ?, ?)";
