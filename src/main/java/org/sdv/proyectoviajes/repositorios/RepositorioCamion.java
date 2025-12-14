@@ -47,6 +47,11 @@ public class RepositorioCamion implements Repositorio<Camion>{
     @Override
     public void eliminar(Long id) throws SQLException {
 
+        try(PreparedStatement stmt = conexion.prepareStatement("DELETE CAMIONES WHERE CAMION_ID = ?")){
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
+
     }
 
     @Override
