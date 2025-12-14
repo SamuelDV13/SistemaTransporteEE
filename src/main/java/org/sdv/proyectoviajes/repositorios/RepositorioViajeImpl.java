@@ -3,6 +3,7 @@ package org.sdv.proyectoviajes.repositorios;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.OracleConn;
 import org.sdv.proyectoviajes.modelos.Viaje;
+import org.sdv.proyectoviajes.modelos.enumeradores.EstadosViaje;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -49,6 +50,13 @@ public class RepositorioViajeImpl implements Repositorio<Viaje>{
 
     @Override
     public void eliminar(Long id) throws SQLException {
+
+        try(PreparedStatement stmt = conexion.prepareStatement("UPDATE VIAJES SET ESTADO = ? WHERE VIAJE_ID = ?")){
+            stmt.setString(1, EstadosViaje.CANCELADO.toString());
+            stmt.setLong(2, id);
+
+            stmt.executeUpdate();
+        }
 
     }
 
