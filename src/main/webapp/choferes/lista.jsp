@@ -34,7 +34,8 @@
                     <td>${(chofer.licencia.numeroLicencia != null) ? chofer.licencia.numeroLicencia : "Sin licencia"}</td>
                     <td>${chofer.estado}</td>
                     <td><a href="${pageContext.request.contextPath}/choferes?accion=editar&id=${chofer.id}">Editar</a></td>
-                    <td><a href="${pageContext.request.contextPath}/choferes?accion=eliminar&id=${chofer.id}">Eliminar</a></td>
+                    <td><a onclick="return confirm('¿Deseas eliminar este registro?')"
+                            href="${pageContext.request.contextPath}/choferes?accion=eliminar&id=${chofer.id}">Eliminar</a></td>
                 </tr>
             </c:forEach>
         </table>
