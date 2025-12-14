@@ -3,10 +3,10 @@ package org.sdv.proyectoviajes.repositorios;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.OracleConn;
 import org.sdv.proyectoviajes.modelos.Camion;
+import org.sdv.proyectoviajes.modelos.enumeradores.EstadosCamion;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RepositorioCamion implements Repositorio<Camion>{
@@ -56,11 +56,49 @@ public class RepositorioCamion implements Repositorio<Camion>{
 
     @Override
     public List<Camion> buscarTodos() throws SQLException {
-        return List.of();
+
+        List<Camion> listaCamiones = new ArrayList<>();
+
+        try(Statement stmt = conexion.createStatement();
+            ResultSet rs =  stmt.executeQuery("SELECT CAMION_ID, PLACA, MODELO, CAPACIDAD, ESTADO FROM CAMIONES")){
+
+            while(rs.next()){
+                listaCamiones.add(llenarCamion(rs));
+            }
+
+        }
+
+        return listaCamiones;
+
     }
 
     @Override
     public Camion buscarPorId(Long id) throws SQLException {
-        return null;
+
+        Camion camion = null;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT CAMION_ID, PLACA, MODELO, CAPACIDAD, ESTADO FROM CAMIONES WHERE CAMION_ID = ?")){
+            stmt.setLong(1, id);
+
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    camion = llenarCamion(rs);
+                }
+            }
+
+        }
+
+        return camion;
+
+    }
+
+    private Camion llenarCamion(ResultSet rs) throws SQLException {
+        Camion camion = new Camion();
+        camion.setId(rs.getLong("CAMION_ID"));
+        camion.setPlaca(rs.getString("PLACA"));
+        camion.setModelo(rs.getString("MODELO"));
+        camion.setCapacidad(rs.getDouble("CAPACIDAD"));
+        camion.setEstado(EstadosCamion.valueOf(rs.getString("ESTADO")));
+        return camion;
     }
 }
