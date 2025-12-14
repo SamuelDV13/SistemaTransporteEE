@@ -1,5 +1,6 @@
 package org.sdv.proyectoviajes.controladores;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet("/camiones")
 public class CamionServlet extends HttpServlet {
 
+    @Inject
     private ServicioCamion servicioCamion;
 
     @Override
