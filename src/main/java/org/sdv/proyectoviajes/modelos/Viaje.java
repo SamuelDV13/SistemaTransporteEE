@@ -15,6 +15,7 @@ public class Viaje {
     private String origen;
     private String destino;
     private LocalDate fechaSalida;
+    private LocalDate fechaEstimada;
     private LocalDate fechaEntrega;
     private EstadosViaje estado;
     private BigDecimal costo;
@@ -67,6 +68,14 @@ public class Viaje {
         this.fechaSalida = fechaSalida;
     }
 
+    public LocalDate getFechaEstimada() {
+        return fechaEstimada;
+    }
+
+    public void setFechaEstimada(LocalDate fechaEstimada) {
+        this.fechaEstimada = fechaEstimada;
+    }
+
     public LocalDate getFechaEntrega() {
         return fechaEntrega;
     }
@@ -90,4 +99,5 @@ public class Viaje {
     public void setCosto(BigDecimal costo) {
         this.costo = costo;
     }
+
 }
