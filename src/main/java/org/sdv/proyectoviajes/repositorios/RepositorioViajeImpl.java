@@ -26,9 +26,9 @@ public class RepositorioViajeImpl implements Repositorio<Viaje> {
         boolean esNuevo = viaje.getId() == null || viaje.getId() <= 0;
 
         if (esNuevo) {
-            sqlViaje = "INSERT INTO VIAJES (CAMION_ID, CHOFER_ID, ORIGEN, DESTINO, FECHA_SALIDA, FECHA_ENTREGA, ESTADO, COSTO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            sqlViaje = "INSERT INTO VIAJES (CAMION_ID, CHOFER_ID, ORIGEN, DESTINO, FECHA_SALIDA, FECHA_ESTIMADA, ESTADO, COSTO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         } else {
-            sqlViaje = "UPDATE VIAJES SET CAMION_ID = ?, CHOFER_ID = ?, ORIGEN = ?, DESTINO = ?, FECHA_SALIDA = ?, FECHA_ENTREGA = ?, ESTADO = ?, COSTO = ? WHERE VIAJE_ID = ?";
+            sqlViaje = "UPDATE VIAJES SET CAMION_ID = ?, CHOFER_ID = ?, ORIGEN = ?, DESTINO = ?, FECHA_SALIDA = ?, FECHA_ESTIMADA = ?, ESTADO = ?, COSTO = ?, FECHA_ENTREGA = ? WHERE VIAJE_ID = ?";
         }
 
         try (PreparedStatement stmt = conexion.prepareStatement(sqlViaje)) {
@@ -38,12 +38,18 @@ public class RepositorioViajeImpl implements Repositorio<Viaje> {
             stmt.setString(3, viaje.getOrigen());
             stmt.setString(4, viaje.getDestino());
             stmt.setDate(5, Date.valueOf(viaje.getFechaSalida()));
-            stmt.setDate(6, Date.valueOf(viaje.getFechaEntrega()));
+            stmt.setDate(6, Date.valueOf(viaje.getFechaEstimada()));
             stmt.setString(7, viaje.getEstado().toString());
             stmt.setBigDecimal(8, viaje.getCosto());
 
             if (!esNuevo) {
-                stmt.setLong(9, viaje.getId());
+                if(viaje.getFechaEntrega() != null){
+                    stmt.setDate(9, Date.valueOf(viaje.getFechaEntrega()));
+                } else{
+                    stmt.setNull(9, Types.DATE);
+                }
+
+                stmt.setLong(10, viaje.getId());
             }
 
             stmt.executeUpdate();
