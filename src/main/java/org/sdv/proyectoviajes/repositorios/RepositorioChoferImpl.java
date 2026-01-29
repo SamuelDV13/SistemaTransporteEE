@@ -3,6 +3,7 @@ package org.sdv.proyectoviajes.repositorios;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.ARepositorio;
 import org.sdv.proyectoviajes.config.OracleConn;
+import org.sdv.proyectoviajes.dto.ObjetoSelectDto;
 import org.sdv.proyectoviajes.modelos.Chofer;
 import org.sdv.proyectoviajes.modelos.Licencia;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioChoferImpl implements Repositorio<Chofer> {
+public class RepositorioChoferImpl implements Repositorio<Chofer>, RepositorioSelectable {
 
     @Inject
     @OracleConn
@@ -167,5 +168,27 @@ public class RepositorioChoferImpl implements Repositorio<Chofer> {
         chofer.setComision(rs.getInt("COMISION"));
         chofer.setEstado(EstadosChofer.valueOf(rs.getString("ESTADO")));
         return chofer;
+    }
+
+    @Override
+    public List<ObjetoSelectDto> listarparaSelect() throws SQLException {
+
+        List<ObjetoSelectDto> listaChoferes = new ArrayList<>();
+
+        try(Statement stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT P.PERSONA_ID, P.NOMBRE || ' ' || P.APELLIDO_PATERNO || ' ' || P.APELLIDO_MATERNO || ' (' || L.NUMERO_LICENCIA || ')' AS TEXTO_OPCION FROM PERSONAS P " +
+                    "INNER JOIN CHOFERES C " +
+                    "ON P.PERSONA_ID = C.PERSONA_ID " +
+                    "INNER JOIN LICENCIAS L " +
+                    "ON C.LICENCIA_ID = L.LICENCIA_ID " +
+                    "WHERE C.ESTADO = 'DISPONIBLE' AND L.FECHA_VENCIMIENTO >= SYSDATE")){
+
+            while(rs.next()){
+                ObjetoSelectDto objetoSelect = new ObjetoSelectDto(rs.getLong("PERSONA_ID"), rs.getString("TEXTO_OPCION"));
+                listaChoferes.add(objetoSelect);
+            }
+        }
+
+        return listaChoferes;
     }
 }

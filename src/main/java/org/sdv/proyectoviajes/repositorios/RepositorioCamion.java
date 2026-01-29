@@ -3,6 +3,7 @@ package org.sdv.proyectoviajes.repositorios;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.ARepositorio;
 import org.sdv.proyectoviajes.config.OracleConn;
+import org.sdv.proyectoviajes.dto.ObjetoSelectDto;
 import org.sdv.proyectoviajes.modelos.Camion;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosCamion;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioCamion implements Repositorio<Camion>{
+public class RepositorioCamion implements Repositorio<Camion>, RepositorioSelectable{
 
     @Inject
     @OracleConn
@@ -103,4 +104,25 @@ public class RepositorioCamion implements Repositorio<Camion>{
         camion.setEstado(EstadosCamion.valueOf(rs.getString("ESTADO")));
         return camion;
     }
+
+    @Override
+    public List<ObjetoSelectDto> listarparaSelect() throws SQLException {
+
+        List<ObjetoSelectDto> listaCamiones = new ArrayList<>();
+
+        try(Statement stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT CAMION_ID, MODELO || ' - ' || PlACA || ' - ' || CAPACIDAD || 'ton' AS TEXTO_OPCION " +
+                                                "FROM CAMIONES " +
+                                                "WHERE ESTADO = 'DISPONIBLE'")){
+
+            while(rs.next()){
+                ObjetoSelectDto objetoSelect = new ObjetoSelectDto(rs.getLong("CAMION_ID"), rs.getString("TEXTO_OPCION"));
+                listaCamiones.add(objetoSelect);
+            }
+        }
+
+        return listaCamiones;
+
+    }
+
 }
