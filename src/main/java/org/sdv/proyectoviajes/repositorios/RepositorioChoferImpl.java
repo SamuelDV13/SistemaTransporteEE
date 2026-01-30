@@ -171,7 +171,7 @@ public class RepositorioChoferImpl implements Repositorio<Chofer>, RepositorioSe
     }
 
     @Override
-    public List<ObjetoSelectDto> listarparaSelect() throws SQLException {
+    public List<ObjetoSelectDto> listarParaSelect() throws SQLException {
 
         List<ObjetoSelectDto> listaChoferes = new ArrayList<>();
 

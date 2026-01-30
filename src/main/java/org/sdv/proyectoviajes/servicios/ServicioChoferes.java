@@ -1,5 +1,6 @@
 package org.sdv.proyectoviajes.servicios;
 
+import org.sdv.proyectoviajes.dto.ObjetoSelectDto;
 import org.sdv.proyectoviajes.modelos.Chofer;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface ServicioChoferes {
     List<Chofer> buscarTodosChoferes();
     Chofer buscarPorIdChofer(Long id);
     void desvincularLicencia(Long id);
+    List<ObjetoSelectDto> listarChoferesParaSelect();
 }

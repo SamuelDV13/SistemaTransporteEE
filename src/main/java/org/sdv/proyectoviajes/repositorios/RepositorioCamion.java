@@ -106,7 +106,7 @@ public class RepositorioCamion implements Repositorio<Camion>, RepositorioSelect
     }
 
     @Override
-    public List<ObjetoSelectDto> listarparaSelect() throws SQLException {
+    public List<ObjetoSelectDto> listarParaSelect() throws SQLException {
 
         List<ObjetoSelectDto> listaCamiones = new ArrayList<>();
 

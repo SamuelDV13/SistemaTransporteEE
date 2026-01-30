@@ -2,11 +2,14 @@ package org.sdv.proyectoviajes.servicios;
 
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.AServicio;
+import org.sdv.proyectoviajes.dto.ObjetoSelectDto;
 import org.sdv.proyectoviajes.excepciones.ServicioException;
 import org.sdv.proyectoviajes.modelos.Chofer;
 import org.sdv.proyectoviajes.repositorios.Repositorio;
+import org.sdv.proyectoviajes.repositorios.RepositorioSelectable;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @AServicio
@@ -77,6 +80,21 @@ public class ServicioChoferImpl implements ServicioChoferes {
             }
 
         } catch (SQLException e) {
+            throw new ServicioException(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public List<ObjetoSelectDto> listarChoferesParaSelect() {
+
+        try{
+            if(choferRepositorio instanceof RepositorioSelectable){
+                return ((RepositorioSelectable) choferRepositorio).listarParaSelect();
+            }else{
+                return new ArrayList<>();
+            }
+        }catch (SQLException e){
             throw new ServicioException(e.getMessage());
         }
 

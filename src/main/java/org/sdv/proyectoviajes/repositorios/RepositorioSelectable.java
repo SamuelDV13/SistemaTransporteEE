@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface RepositorioSelectable {
 
-    List<ObjetoSelectDto> listarparaSelect() throws SQLException;
+    List<ObjetoSelectDto> listarParaSelect() throws SQLException;
 
 }
