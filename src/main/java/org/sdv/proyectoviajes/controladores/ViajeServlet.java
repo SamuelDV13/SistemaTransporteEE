@@ -12,6 +12,8 @@ import org.sdv.proyectoviajes.modelos.Usuario;
 import org.sdv.proyectoviajes.modelos.Viaje;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosViaje;
+import org.sdv.proyectoviajes.servicios.ServicioCamion;
+import org.sdv.proyectoviajes.servicios.ServicioChoferes;
 import org.sdv.proyectoviajes.servicios.ServicioViajes;
 
 import java.io.IOException;
@@ -23,6 +25,10 @@ public class ViajeServlet extends HttpServlet {
 
     @Inject
     ServicioViajes  servicioViajes;
+    @Inject
+    ServicioCamion servicioCamiones;
+    @Inject
+    ServicioChoferes servicioChoferes;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -64,6 +70,9 @@ public class ViajeServlet extends HttpServlet {
     }
 
     private void mostrarFormulario(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        req.setAttribute("listaChoferes", servicioChoferes.listarChoferesParaSelect());
+        req.setAttribute("listaCamiones", servicioCamiones.listarCamionesParaSelect());
         req.getRequestDispatcher("/viajes/formulario.jsp").forward(req, resp);
     }
 
