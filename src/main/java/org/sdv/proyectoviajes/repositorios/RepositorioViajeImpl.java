@@ -76,7 +76,11 @@ public class RepositorioViajeImpl implements Repositorio<Viaje> {
         List<Viaje> listaViajes = new ArrayList<>();
 
         try (Statement stmt = conexion.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT VIAJE_ID, ORIGEN, DESTINO, FECHA_SALIDA, FECHA_ESTIMADA, FECHA_ENTREGA, ESTADO FROM VIAJES ORDER BY VIAJE_ID")) {
+             ResultSet rs = stmt.executeQuery("SELECT V.VIAJE_ID, V.ORIGEN, V.DESTINO, CA.MODELO, P.NOMBRE, P.APELLIDO_PATERNO, P.APELLIDO_MATERNO, V.FECHA_SALIDA, V.FECHA_ESTIMADA, V.FECHA_ENTREGA, V.ESTADO " +
+                     "FROM VIAJES V INNER JOIN CAMIONES CA ON V.CAMION_ID = CA.CAMION_ID " +
+                     "INNER JOIN CHOFERES CH ON V.CHOFER_ID = CH.PERSONA_ID " +
+                     "INNER JOIN PERSONAS P ON CH.PERSONA_ID = P.PERSONA_ID " +
+                     "ORDER BY VIAJE_ID")) {
 
             while (rs.next()) {
                 listaViajes.add(llenarViajeResumen(rs));
@@ -120,6 +124,14 @@ public class RepositorioViajeImpl implements Repositorio<Viaje> {
         viaje.setFechaSalida(rs.getDate("FECHA_SALIDA").toLocalDate());
         viaje.setFechaEstimada(rs.getDate("FECHA_ESTIMADA").toLocalDate());
         Date fechaEntrega = rs.getDate("FECHA_ENTREGA");
+        Chofer chofer = new Chofer();
+        chofer.setNombre(rs.getString("NOMBRE"));
+        chofer.setApellidoPaterno(rs.getString("APELLIDO_PATERNO"));
+        chofer.setApellidoMaterno(rs.getString("APELLIDO_MATERNO"));
+        viaje.setChofer(chofer);
+        Camion camion = new Camion();
+        camion.setModelo(rs.getString("MODELO"));
+        viaje.setCamion(camion);
         if(fechaEntrega != null) {
             viaje.setFechaEntrega(fechaEntrega.toLocalDate());
         }
