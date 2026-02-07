@@ -15,7 +15,7 @@
 
         <h2>${(viaje.id != null && viaje.id > 0) ? "Editar viaje" : "Nuevo viaje"}</h2>
 
-        <form action="${pageContext.request.contextPath}/camiones" method="POST">
+        <form action="${pageContext.request.contextPath}/viajes" method="POST">
 
             <input type="hidden" name="accion" value="guardar">
             <input type="hidden" name="id" value="${viaje.id}">
