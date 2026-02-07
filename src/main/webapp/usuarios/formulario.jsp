@@ -7,9 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Formulario de usuarios</title>
+    <jsp:include page="/includes/imports.jsp" />
 </head>
 
 <body>
+
+    <jsp:include page="/includes/header.jsp" />
+
     <div>
 
         <h2>${(usuario.id != null && usuario.id > 0) ? "Editar Usuario" : "Nuevo Usuario"}</h2>

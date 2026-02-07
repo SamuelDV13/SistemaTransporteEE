@@ -8,9 +8,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Formulario de Viajes</title>
+    <jsp:include page="/includes/imports.jsp" />
 </head>
 
 <body>
+
+    <jsp:include page="/includes/header.jsp" />
+
     <div>
 
         <h2>${(viaje.id != null && viaje.id > 0) ? "Editar viaje" : "Nuevo viaje"}</h2>
