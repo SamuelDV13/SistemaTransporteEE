@@ -79,6 +79,9 @@ public class ViajeServlet extends HttpServlet {
     private void mostrarFormularioEditar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = Long.parseLong(req.getParameter("id"));
         Viaje viaje = servicioViajes.buscarPorIdViaje(id);
+
+        req.setAttribute("listaChoferes", servicioChoferes.listarChoferesParaSelect());
+        req.setAttribute("listaCamiones", servicioCamiones.listarCamionesParaSelect());
         req.setAttribute("viaje", viaje);
         req.getRequestDispatcher("/viajes/formulario.jsp").forward(req, resp);
     }
