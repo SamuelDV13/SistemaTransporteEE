@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioCamion implements Repositorio<Camion>, RepositorioSelectable{
+public class RepositorioCamion implements Repositorio<Camion>, RepositorioSelectable, RepositorioEstado{
 
     @Inject
     @OracleConn
@@ -125,4 +125,14 @@ public class RepositorioCamion implements Repositorio<Camion>, RepositorioSelect
 
     }
 
+    @Override
+    public void actualizarEstado(Long id, String nuevoEstado) throws SQLException {
+
+        try(PreparedStatement stmt = conexion.prepareStatement("UPDATE CAMIONES SET ESTADO = ? WHERE CAMION_ID = ?")){
+
+            stmt.setString(1, nuevoEstado);
+            stmt.setLong(2, id);
+            stmt.executeUpdate();
+        }
+    }
 }

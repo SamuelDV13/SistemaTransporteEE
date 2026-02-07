@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioChoferImpl implements Repositorio<Chofer>, RepositorioSelectable {
+public class RepositorioChoferImpl implements Repositorio<Chofer>, RepositorioSelectable, RepositorioEstado {
 
     @Inject
     @OracleConn
@@ -190,5 +190,17 @@ public class RepositorioChoferImpl implements Repositorio<Chofer>, RepositorioSe
         }
 
         return listaChoferes;
+    }
+
+    @Override
+    public void actualizarEstado(Long id, String nuevoEstado) throws SQLException{
+
+        try(PreparedStatement stmt = conexion.prepareStatement("UPDATE CHOFERES SET ESTADO = ? WHERE PERSONA_ID = ?")){
+
+            stmt.setString(1, nuevoEstado);
+            stmt.setLong(2, id);
+            stmt.executeUpdate();
+        }
+
     }
 }
