@@ -3,13 +3,11 @@ package org.sdv.proyectoviajes.servicios;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.AServicio;
 import org.sdv.proyectoviajes.excepciones.ServicioException;
-import org.sdv.proyectoviajes.modelos.Camion;
-import org.sdv.proyectoviajes.modelos.Chofer;
 import org.sdv.proyectoviajes.modelos.Viaje;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosCamion;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 import org.sdv.proyectoviajes.repositorios.Repositorio;
-import org.sdv.proyectoviajes.repositorios.RepositorioCamion;
+import org.sdv.proyectoviajes.repositorios.RepositorioCamionImpl;
 import org.sdv.proyectoviajes.repositorios.RepositorioChoferImpl;
 
 import java.sql.SQLException;
@@ -22,7 +20,7 @@ public class ServicioViajeImpl implements ServicioViajes {
     private Repositorio<Viaje> viajeRepositorio;
 
     @Inject
-    private RepositorioCamion camionRepositorio;
+    private RepositorioCamionImpl camionRepositorio;
 
     @Inject
     private RepositorioChoferImpl choferRepositorio;

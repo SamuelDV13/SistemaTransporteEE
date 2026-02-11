@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioCamion implements Repositorio<Camion>, RepositorioSelectable, RepositorioEstado{
+public class RepositorioCamionImpl implements Repositorio<Camion>, RepositorioSelectable, RepositorioEstado{
 
     @Inject
     @OracleConn
