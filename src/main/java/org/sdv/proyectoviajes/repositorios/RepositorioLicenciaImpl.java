@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioLicenciaImpl implements Repositorio<Licencia> {
+public class RepositorioLicenciaImpl implements RepositorioLicencias {
 
     @Inject
     @OracleConn
@@ -100,5 +100,23 @@ public class RepositorioLicenciaImpl implements Repositorio<Licencia> {
         licencia.setNumeroLicencia(rs.getString("NUMERO_LICENCIA"));
         licencia.setFechaVencimiento(rs.getDate("FECHA_VENCIMIENTO").toLocalDate());
         return licencia;
+    }
+
+    @Override
+    public int contarLicenciasPorVencer(int dias) throws SQLException {
+
+        int total = 0;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT COUNT(*) AS TOTAL FROM LICENCIAS WHERE FECHA_VENCIMIENTO < SYSDATE + ?")){
+
+            stmt.setInt(1, dias);
+
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    total = rs.getInt("TOTAL");
+                }
+            }
+        }
+        return total;
     }
 }

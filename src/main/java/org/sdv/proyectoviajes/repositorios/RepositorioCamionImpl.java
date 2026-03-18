@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioCamionImpl implements Repositorio<Camion>, RepositorioSelectable, RepositorioEstado{
+public class RepositorioCamionImpl implements RepositorioCamion, RepositorioSelectable, RepositorioEstado{
 
     @Inject
     @OracleConn
@@ -134,5 +134,23 @@ public class RepositorioCamionImpl implements Repositorio<Camion>, RepositorioSe
             stmt.setLong(2, id);
             stmt.executeUpdate();
         }
+    }
+
+    @Override
+    public int contarPorEstado(String estado) throws SQLException {
+
+        int total = 0;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT COUNT(*) AS TOTAL FROM CAMIONES WHERE ESTADO = ?")){
+
+            stmt.setString(1, estado);
+
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    total = rs.getInt("TOTAL");
+                }
+            }
+        }
+        return total;
     }
 }

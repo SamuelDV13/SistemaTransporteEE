@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioChoferImpl implements Repositorio<Chofer>, RepositorioSelectable, RepositorioEstado {
+public class RepositorioChoferImpl implements RepositorioChoferes, RepositorioSelectable, RepositorioEstado {
 
     @Inject
     @OracleConn
@@ -202,5 +202,23 @@ public class RepositorioChoferImpl implements Repositorio<Chofer>, RepositorioSe
             stmt.executeUpdate();
         }
 
+    }
+
+    @Override
+    public int contarPorEstado(String estado) throws SQLException {
+
+        int total = 0;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT COUNT(*) AS TOTAL FROM CHOFERES WHERE ESTADO = ?")){
+
+            stmt.setString(1, estado);
+
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    total = rs.getInt("TOTAL");
+                }
+            }
+        }
+        return total;
     }
 }

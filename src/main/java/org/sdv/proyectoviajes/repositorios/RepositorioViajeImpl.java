@@ -11,12 +11,13 @@ import org.sdv.proyectoviajes.modelos.enumeradores.EstadosCamion;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosViaje;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @ARepositorio
-public class RepositorioViajeImpl implements Repositorio<Viaje> {
+public class RepositorioViajeImpl implements RepositorioViaje {
 
     @Inject
     @OracleConn
@@ -182,5 +183,42 @@ public class RepositorioViajeImpl implements Repositorio<Viaje> {
         viaje.setChofer(chofer);
 
         return viaje;
+    }
+
+    @Override
+    public int contarPorEstado(String estado) throws SQLException {
+
+        int total = 0;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT COUNT(*) AS TOTAL FROM VIAJES WHERE ESTADO = ?")){
+
+            stmt.setString(1, estado);
+
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    total = rs.getInt("TOTAL");
+                }
+            }
+        }
+        return total;
+    }
+
+    @Override
+    public BigDecimal obtenerGananciasMensuales() throws SQLException {
+
+        BigDecimal total = BigDecimal.ZERO;
+
+        try(Statement stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT SUM(COSTO) AS TOTAL FROM VIAJES WHERE FECHA_SALIDA >= TRUNC(SYSDATE, 'MM')")){
+
+                if(rs.next()){
+                    BigDecimal resultado = rs.getBigDecimal("TOTAL");
+
+                    if(resultado != null){
+                        total = resultado;
+                    }
+                }
+        }
+        return total;
     }
 }
