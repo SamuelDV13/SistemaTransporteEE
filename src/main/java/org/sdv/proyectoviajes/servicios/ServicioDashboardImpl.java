@@ -1,6 +1,7 @@
 package org.sdv.proyectoviajes.servicios;
 
 import jakarta.inject.Inject;
+import org.sdv.proyectoviajes.config.AServicio;
 import org.sdv.proyectoviajes.dto.DashboardDto;
 import org.sdv.proyectoviajes.excepciones.ServicioException;
 import org.sdv.proyectoviajes.repositorios.RepositorioCamion;
@@ -10,6 +11,7 @@ import org.sdv.proyectoviajes.repositorios.RepositorioViaje;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
+@AServicio
 public class ServicioDashboardImpl implements ServicioDashboard {
 
     @Inject
