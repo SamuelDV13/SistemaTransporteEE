@@ -10,4 +10,5 @@ public interface ServicioUsuarios {
     List<Usuario> buscarTodosUsuarios();
     Usuario buscarPorIdUsuario(Long id);
     void cambiarPasswordUsuario(Long id, String nuevoPassword);
+    Usuario obtenerPorCredenciales(String username, String password);
 }

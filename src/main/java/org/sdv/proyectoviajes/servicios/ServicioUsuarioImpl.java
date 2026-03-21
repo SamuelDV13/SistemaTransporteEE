@@ -59,4 +59,13 @@ public class ServicioUsuarioImpl implements ServicioUsuarios{
             throw new ServicioException(e.getMessage());
         }
     }
+
+    @Override
+    public Usuario obtenerPorCredenciales(String username, String password) {
+        try{
+            return repositorioUsuarios.obtenerPorCredenciales(username, password);
+        } catch (SQLException e){
+            throw new ServicioException(e.getMessage());
+        }
+    }
 }

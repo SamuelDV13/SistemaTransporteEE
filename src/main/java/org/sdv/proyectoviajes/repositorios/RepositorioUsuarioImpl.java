@@ -142,6 +142,30 @@ public class RepositorioUsuarioImpl implements RepositorioUsuarios {
 
     }
 
+    @Override
+    public Usuario obtenerPorCredenciales(String username, String password) throws SQLException {
+
+        Usuario usuario = null;
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT P.PERSONA_ID, P.NOMBRE, P.APELLIDO_PATERNO, P.APELLIDO_MATERNO, P.TELEFONO, U.USERNAME, U.EMAIL, U.CARGO FROM PERSONAS p " +
+                "INNER JOIN USUARIOS u " +
+                "ON p.PERSONA_ID = u.PERSONA_ID WHERE U.USERNAME = ? AND U.PASS = ?")){
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    usuario = llenarUsuario(rs);
+                }
+            }
+
+        }
+
+        return usuario;
+
+    }
+
 
     private Usuario llenarUsuario(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
