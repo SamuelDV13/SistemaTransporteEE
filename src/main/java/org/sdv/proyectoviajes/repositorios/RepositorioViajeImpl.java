@@ -3,6 +3,7 @@ package org.sdv.proyectoviajes.repositorios;
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.ARepositorio;
 import org.sdv.proyectoviajes.config.OracleConn;
+import org.sdv.proyectoviajes.dto.ViajeComisionDto;
 import org.sdv.proyectoviajes.modelos.Camion;
 import org.sdv.proyectoviajes.modelos.Chofer;
 import org.sdv.proyectoviajes.modelos.Licencia;
@@ -220,5 +221,36 @@ public class RepositorioViajeImpl implements RepositorioViaje {
                 }
         }
         return total;
+    }
+
+    @Override
+    public List<ViajeComisionDto> obtenerViajeYComisionPorChofer(Long idChofer) throws SQLException {
+        List<ViajeComisionDto> listaViajesComisiones = new  ArrayList<>();
+
+        try(PreparedStatement stmt = conexion.prepareStatement("SELECT V.ORIGEN, V.DESTINO, V.FECHA_ENTREGA, ((V.COSTO * CH.COMISION) / 100) AS MONTO FROM VIAJES v " +
+                "INNER JOIN CHOFERES ch " +
+                "ON V.CHOFER_ID = CH.PERSONA_ID " +
+                "WHERE CH.PERSONA_ID = ? ORDER BY V.FECHA_ENTREGA DESC")){
+
+            stmt.setLong(1, idChofer);
+
+            try(ResultSet rs = stmt.executeQuery()){
+
+                while(rs.next()){
+                    ViajeComisionDto dto = new ViajeComisionDto();
+                    dto.setOrigen(rs.getString("ORIGEN"));
+                    dto.setDestino(rs.getString("DESTINO"));
+                    dto.setFechaEntrega(rs.getDate("FECHA_ENTREGA").toLocalDate());
+                    dto.setComision(rs.getBigDecimal("MONTO"));
+
+                    listaViajesComisiones.add(dto);
+                }
+
+            }
+
+        }
+
+        return listaViajesComisiones;
+
     }
 }

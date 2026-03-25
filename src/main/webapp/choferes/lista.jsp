@@ -28,6 +28,7 @@
                 <th>Numero de licencia</th>
                 <th>Estado</th>
                 <th>Editar</th>
+                <th>Comisiones</th>
                 <th>Eliminar</th>
             </tr>
 
@@ -38,6 +39,7 @@
                     <td>${(chofer.licencia.numeroLicencia != null) ? chofer.licencia.numeroLicencia : "Sin licencia"}</td>
                     <td>${chofer.estado}</td>
                     <td><a href="${pageContext.request.contextPath}/choferes?accion=editar&id=${chofer.id}">Editar</a></td>
+                    <td><a href="${pageContext.request.contextPath}/choferes?accion=mostrarViajes&id=${chofer.id}">Ver</a></td>
                     <td><a onclick="return confirm('¿Deseas eliminar este registro?')"
                             href="${pageContext.request.contextPath}/choferes?accion=eliminar&id=${chofer.id}">Eliminar</a></td>
                 </tr>

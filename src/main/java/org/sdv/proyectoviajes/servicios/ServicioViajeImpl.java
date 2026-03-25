@@ -2,6 +2,7 @@ package org.sdv.proyectoviajes.servicios;
 
 import jakarta.inject.Inject;
 import org.sdv.proyectoviajes.config.AServicio;
+import org.sdv.proyectoviajes.dto.ViajeComisionDto;
 import org.sdv.proyectoviajes.excepciones.ServicioException;
 import org.sdv.proyectoviajes.modelos.Viaje;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosCamion;
@@ -9,6 +10,7 @@ import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 import org.sdv.proyectoviajes.repositorios.Repositorio;
 import org.sdv.proyectoviajes.repositorios.RepositorioCamionImpl;
 import org.sdv.proyectoviajes.repositorios.RepositorioChoferImpl;
+import org.sdv.proyectoviajes.repositorios.RepositorioViajeImpl;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,13 +19,15 @@ import java.util.List;
 public class ServicioViajeImpl implements ServicioViajes {
 
     @Inject
-    private Repositorio<Viaje> viajeRepositorio;
+    private RepositorioViajeImpl viajeRepositorio;
 
     @Inject
     private RepositorioCamionImpl camionRepositorio;
 
     @Inject
     private RepositorioChoferImpl choferRepositorio;
+    @Inject
+    private RepositorioViajeImpl repositorioViajeImpl;
 
     @Override
     public void guardarViaje(Viaje viaje) {
@@ -59,6 +63,15 @@ public class ServicioViajeImpl implements ServicioViajes {
         try {
             return viajeRepositorio.buscarPorId(id);
         } catch (SQLException e) {
+            throw new ServicioException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<ViajeComisionDto> obtenerViajeYComisionPorChofer(Long idChofer) {
+        try{
+            return repositorioViajeImpl.obtenerViajeYComisionPorChofer(idChofer);
+        }catch (SQLException e){
             throw new ServicioException(e.getMessage());
         }
     }
