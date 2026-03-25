@@ -230,7 +230,7 @@ public class RepositorioViajeImpl implements RepositorioViaje {
         try(PreparedStatement stmt = conexion.prepareStatement("SELECT V.ORIGEN, V.DESTINO, V.FECHA_ENTREGA, ((V.COSTO * CH.COMISION) / 100) AS MONTO FROM VIAJES v " +
                 "INNER JOIN CHOFERES ch " +
                 "ON V.CHOFER_ID = CH.PERSONA_ID " +
-                "WHERE CH.PERSONA_ID = ? ORDER BY V.FECHA_ENTREGA DESC")){
+                "WHERE CH.PERSONA_ID = ? AND V.FECHA_ENTREGA IS NOT NULL ORDER BY V.FECHA_ENTREGA DESC")){
 
             stmt.setLong(1, idChofer);
 
