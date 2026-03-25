@@ -23,6 +23,9 @@
 
             <input type="hidden" name="accion" value="guardar">
             <input type="hidden" name="id" value="${viaje.id}">
+            <input type="hidden" name="idCamionAnt" value="${viaje.camion.id}">
+            <input type="hidden" name="idChoferAnt" value="${viaje.chofer.id}">
+
 
             <div>
                 <label for="origen">Origen:</label>
@@ -52,18 +55,26 @@
             <div>
                 <label for="choferId">Chofer:</label>
                 <select name="choferId" id="choferId">
+                    <option value="">-- Seleccionar un chofer --</option>
                     <c:forEach var="chofer" items="${listaChoferes}">
-                        <option value="${chofer.id}" ${(chofer.id == viaje.chofer.id) ? "selected" : ""}>${chofer.texto}</option>
+                        <option value="${chofer.id}">${chofer.texto}</option>
                     </c:forEach>
+                    <c:if test="${viaje != null}">
+                        <option value="${viaje.chofer.id}" selected>${viaje.chofer.nombre} ${viaje.chofer.apellidoPaterno} ${viaje.chofer.apellidoMaterno}</option>
+                    </c:if>
                 </select>
             </div>
 
             <div>
                 <label for="camionId">Camion:</label>
                 <select name="camionId" id="camionId">
+                    <option value="">-- Seleccionar un camion --</option>
                     <c:forEach var="camion" items="${listaCamiones}">
-                        <option value="${camion.id}" ${(camion.id == viaje.camion.id) ? "selected" : ""}>${camion.texto}</option>
+                        <option value="${camion.id}">${camion.texto}</option>
                     </c:forEach>
+                    <c:if test="${viaje != null}">
+                        <option value="${viaje.camion.id}" selected>${viaje.camion.modelo} - ${viaje.camion.placa} - ${viaje.camion.capacidad}ton</option>
+                    </c:if>
                 </select>
             </div>
 
@@ -83,10 +94,11 @@
                 </select>
             </div>
 
+            <c:if test="${viaje == null || viaje.estado != 'COMPLETADO'}">
             <div>
                 <input type="submit" value="${(viaje.id != null && viaje.id > 0) ? "Actualizar" : "Crear"}">
             </div>
-
+|           </c:if>
         </form>
 
     </div>

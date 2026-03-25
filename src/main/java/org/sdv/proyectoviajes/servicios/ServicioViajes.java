@@ -6,7 +6,7 @@ import org.sdv.proyectoviajes.modelos.Viaje;
 import java.util.List;
 
 public interface ServicioViajes {
-    void guardarViaje(Viaje viaje);
+    void guardarViaje(Viaje viaje, long idCamionAnterior, long idChoferAnterior);
     void eliminarViaje(Long id);
     List<Viaje> buscarTodosViajes();
     Viaje buscarPorIdViaje(Long id);

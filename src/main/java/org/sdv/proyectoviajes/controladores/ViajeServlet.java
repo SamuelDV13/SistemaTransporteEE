@@ -103,6 +103,23 @@ public class ViajeServlet extends HttpServlet {
         long choferId = Long.parseLong(req.getParameter("choferId"));
         long camionId = Long.parseLong(req.getParameter("camionId"));
 
+
+        long idChoferAnt;
+        try {
+            idChoferAnt = Long.parseLong(req.getParameter("idChoferAnt"));
+        }catch (NumberFormatException e){
+            idChoferAnt = 0;
+        }
+
+        long idCamionAnt;
+        try {
+            idCamionAnt = Long.parseLong(req.getParameter("idCamionAnt"));
+        }catch (NumberFormatException e){
+            idCamionAnt = 0;
+        }
+
+        long[] idAnteriores = {idCamionAnt, idChoferAnt};
+
         BigDecimal costo;
         try{
             costo = new BigDecimal(req.getParameter("costo"));
@@ -133,7 +150,7 @@ public class ViajeServlet extends HttpServlet {
 
         viaje.setCosto(costo);
 
-        servicioViajes.guardarViaje(viaje);
+        servicioViajes.guardarViaje(viaje, idCamionAnt, idChoferAnt);
 
         resp.sendRedirect("viajes");
 

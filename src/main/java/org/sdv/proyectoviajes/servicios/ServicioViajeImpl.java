@@ -7,12 +7,14 @@ import org.sdv.proyectoviajes.excepciones.ServicioException;
 import org.sdv.proyectoviajes.modelos.Viaje;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosCamion;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
+import org.sdv.proyectoviajes.modelos.enumeradores.EstadosViaje;
 import org.sdv.proyectoviajes.repositorios.Repositorio;
 import org.sdv.proyectoviajes.repositorios.RepositorioCamionImpl;
 import org.sdv.proyectoviajes.repositorios.RepositorioChoferImpl;
 import org.sdv.proyectoviajes.repositorios.RepositorioViajeImpl;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 @AServicio
@@ -30,11 +32,35 @@ public class ServicioViajeImpl implements ServicioViajes {
     private RepositorioViajeImpl repositorioViajeImpl;
 
     @Override
-    public void guardarViaje(Viaje viaje) {
+    public void guardarViaje(Viaje viaje, long idCamionAnterior, long idChoferAnterior) {
         try {
+
+            boolean viajeCompleto = viaje.getEstado() == EstadosViaje.COMPLETADO;
+
+            if(viajeCompleto){
+                viaje.setFechaEntrega(LocalDate.now());
+            }
+
             viajeRepositorio.guardar(viaje);
-            camionRepositorio.actualizarEstado(viaje.getCamion().getId(), EstadosCamion.EN_VIAJE.toString());
-            choferRepositorio.actualizarEstado(viaje.getChofer().getId(), EstadosChofer.EN_VIAJE.toString());
+
+
+            if(idCamionAnterior > 0 && viaje.getCamion().getId() != idCamionAnterior){
+                camionRepositorio.actualizarEstado(idCamionAnterior, EstadosCamion.DISPONIBLE.toString());
+            }
+
+            if(idChoferAnterior > 0 && viaje.getChofer().getId() != idChoferAnterior){
+                choferRepositorio.actualizarEstado(idChoferAnterior, EstadosChofer.DISPONIBLE.toString());
+            }
+
+
+            if(viajeCompleto){
+                camionRepositorio.actualizarEstado(viaje.getCamion().getId(), EstadosCamion.DISPONIBLE.toString());
+                choferRepositorio.actualizarEstado(viaje.getChofer().getId(), EstadosChofer.DISPONIBLE.toString());
+            } else{
+                camionRepositorio.actualizarEstado(viaje.getCamion().getId(), EstadosCamion.EN_VIAJE.toString());
+                choferRepositorio.actualizarEstado(viaje.getChofer().getId(), EstadosChofer.EN_VIAJE.toString());
+            }
+
         } catch (SQLException e) {
             throw new ServicioException(e.getMessage());
         }
