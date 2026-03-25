@@ -19,7 +19,7 @@ public class LoginFilter implements Filter {
 
             HttpSession session = req.getSession(false);
 
-            if(session != null && session.getAttribute("usuario") != null){
+            if(session != null && session.getAttribute("usuarioLogueado") != null){
                 filterChain.doFilter(servletRequest, servletResponse);
             } else{
                 resp.sendRedirect(req.getContextPath() + "/login.jsp");

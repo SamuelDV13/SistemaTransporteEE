@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             //Logica para permitir el acceso
 
             HttpSession session = req.getSession();
-            session.setAttribute("usuario", usuario);
+            session.setAttribute("usuarioLogueado", usuario);
 
             resp.sendRedirect(req.getContextPath() + "/dashboard");
 
