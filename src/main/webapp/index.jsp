@@ -15,29 +15,29 @@
     <jsp:include page="/includes/header.jsp" />
 
     <div>
-        <h1>Bienvenido ${sessionScope.usuario.nombre} !!Que gusto verte de nuevo!!</h1>
+        <h1>Bienvenido ${sessionScope.usuarioLogueado.nombre} !!Que gusto verte de nuevo!!</h1>
         <h2>Panel de Control</h2>
 
 
-        <c:if test="${sessionScope.usuario.cargo == 'LOGISTICA' || sessionScope.usuario.cargo == 'ADMINISTRADOR'}">
+        <c:if test="${sessionScope.usuarioLogueado.cargo == 'LOGISTICA' || sessionScope.usuarioLogueado.cargo == 'ADMINISTRADOR'}">
             <div>
                 <h3>Viajes en Ruta: ${kpis.viajesEnRuta}</h3>
             </div>
         </c:if>
 
-        <c:if test="${sessionScope.usuario.cargo == 'LOGISTICA' || sessionScope.usuario.cargo == 'ADMINISTRADOR'}">
+        <c:if test="${sessionScope.usuarioLogueado.cargo == 'LOGISTICA' || sessionScope.usuarioLogueado.cargo == 'ADMINISTRADOR'}">
         <div>
             <h3>Camiones Disponibles: ${kpis.camionesDisponibles}</h3>
         </div>
         </c:if>
 
-        <c:if test="${sessionScope.usuario.cargo == 'LOGISTICA' || sessionScope.usuario.cargo == 'ADMINISTRADOR'}">
+        <c:if test="${sessionScope.usuarioLogueado.cargo == 'LOGISTICA' || sessionScope.usuarioLogueado.cargo == 'ADMINISTRADOR'}">
         <div>
             <h3>Choferes Libres: ${kpis.choferesLibres}</h3>
         </div>
         </c:if>
 
-        <c:if test="${sessionScope.usuario.cargo == 'ADMINISTRADOR'}">
+        <c:if test="${sessionScope.usuarioLogueado.cargo == 'ADMINISTRADOR'}">
         <div>
             <h3>Ingresos del Mes: ${kpis.gananciasMes}</h3>
         </div>
