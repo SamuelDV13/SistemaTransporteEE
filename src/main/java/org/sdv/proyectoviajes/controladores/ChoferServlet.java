@@ -10,6 +10,7 @@ import org.sdv.proyectoviajes.modelos.Chofer;
 import org.sdv.proyectoviajes.modelos.Licencia;
 import org.sdv.proyectoviajes.modelos.enumeradores.EstadosChofer;
 import org.sdv.proyectoviajes.servicios.ServicioChoferes;
+import org.sdv.proyectoviajes.servicios.ServicioViajes;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -19,6 +20,9 @@ public class ChoferServlet extends HttpServlet {
 
     @Inject
     private ServicioChoferes servicioChoferes;
+
+    @Inject
+    private ServicioViajes servicioViajes;
 
 
     @Override
@@ -36,6 +40,7 @@ public class ChoferServlet extends HttpServlet {
             case "eliminar" -> eliminarChofer(req, resp);
             case "remover" -> removerLicencia(req, resp);
             case "listar" -> listarChoferes(req, resp);
+            case "mostrarViajes" -> mostrarViajes(req, resp);
         }
 
     }
@@ -131,6 +136,21 @@ public class ChoferServlet extends HttpServlet {
         servicioChoferes.guardarChofer(chofer);
 
         resp.sendRedirect("choferes");
+
+    }
+
+    private void mostrarViajes(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        long idChofer;
+        try{
+            idChofer = Long.parseLong(req.getParameter("id"));
+        } catch (NumberFormatException e){
+            idChofer = 0L;
+        }
+
+        req.setAttribute("listaComisiones", servicioViajes.obtenerViajeYComisionPorChofer(idChofer));
+
+        req.getRequestDispatcher("/choferes/listaComisiones.jsp").forward(req, resp);
 
     }
 
