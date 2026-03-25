@@ -210,7 +210,7 @@ public class RepositorioViajeImpl implements RepositorioViaje {
         BigDecimal total = BigDecimal.ZERO;
 
         try(Statement stmt = conexion.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT SUM(COSTO) AS TOTAL FROM VIAJES WHERE FECHA_SALIDA >= TRUNC(SYSDATE, 'MM')")){
+            ResultSet rs = stmt.executeQuery("SELECT SUM(COSTO) AS TOTAL FROM VIAJES WHERE FECHA_SALIDA >= TRUNC(SYSDATE, 'MM') AND ESTADO = 'COMPLETADO'")){
 
                 if(rs.next()){
                     BigDecimal resultado = rs.getBigDecimal("TOTAL");
