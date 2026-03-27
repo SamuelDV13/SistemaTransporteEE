@@ -11,33 +11,50 @@
     <jsp:include page="/includes/imports.jsp" />
 </head>
 
-<body>
+<body class="bg-light">
 
-    <jsp:include page="/includes/header.jsp" />
+<jsp:include page="/includes/header.jsp" />
 
-    <div>
+<div class="container mt-5 mb-5">
 
-        <h1>Lista de comisiones</h1>
+    <div class="card shadow-sm border-0 rounded-4">
 
-        <table>
-            <tr>
-                <th>Origen</th>
-                <th>Destino</th>
-                <th>Fecha Entrega</th>
-                <th>Comision</th>
-            </tr>
+        <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+            <h2 class="h4 mb-0 text-dark fw-bold">Lista de comisiones</h2>
+        </div>
 
-            <c:forEach var="comisiones" items="${listaComisiones}">
-            <tr>
-                <td>${comisiones.origen}</td>
-                <td>${comisiones.destino}</td>
-                <td>${comisiones.fechaEntrega}</td>
-                <td>$${comisiones.comision}</td>
-            </tr>
-            </c:forEach>
-        </table>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
+
+                    <thead class="table-light text-secondary">
+                    <tr>
+                        <th scope="col">Origen</th>
+                        <th scope="col">Destino</th>
+                        <th scope="col">Fecha Entrega</th>
+                        <th scope="col" class="text-end">Comision</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="border-top-0">
+                    <c:forEach var="comisiones" items="${listaComisiones}">
+                        <tr>
+                            <td class="fw-semibold text-dark">${comisiones.origen}</td>
+                            <td>${comisiones.destino}</td>
+                            <td>${comisiones.fechaEntrega}</td>
+                            <td class="text-end fw-bold text-success">
+                                $${comisiones.comision}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
 
     </div>
+</div>
 
 </body>
 </html>

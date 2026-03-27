@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,39 +11,66 @@
     <jsp:include page="/includes/imports.jsp" />
 </head>
 
-<body>
+<body class="bg-light">
 
-    <jsp:include page="/includes/header.jsp" />
+<jsp:include page="/includes/header.jsp" />
 
-    <div>
-        <h2>Lista de Camiones</h2>
+<div class="container mt-5 mb-5">
 
-        <a href="${pageContext.request.contextPath}/camiones?accion=nuevo">Nuevo [+]</a>
+    <div class="card shadow-sm border-0 rounded-4">
 
-        <table>
-            <tr>
-                <th>Placa</th>
-                <th>Modelo</th>
-                <th>Capacidad</th>
-                <th>Estado</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-            </tr>
+        <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
+            <h2 class="h4 mb-0 text-dark fw-bold">Lista de Camiones</h2>
+            <a href="${pageContext.request.contextPath}/camiones?accion=nuevo" class="btn btn-primary fw-semibold shadow-sm">
+                Nuevo [+]
+            </a>
+        </div>
 
-            <c:forEach var="camion" items="${camiones}">
-                <tr>
-                    <td>${camion.placa}</td>
-                    <td>${camion.modelo}</td>
-                    <td>${camion.capacidad}</td>
-                    <td>${camion.estado}</td>
-                    <td><a href="${pageContext.request.contextPath}/camiones?accion=editar&id=${camion.id}">Editar</a></td>
-                    <td><a onclick="return confirm('¿Deseas eliminar este registro?')"
-                            href="${pageContext.request.contextPath}/camiones?accion=eliminar&id=${camion.id}">Eliminar</a></td>
-                </tr>
-            </c:forEach>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
 
-        </table>
+                    <thead class="table-light text-secondary">
+                    <tr>
+                        <th scope="col">Placa</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">Capacidad</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col" class="text-center">Editar</th>
+                        <th scope="col" class="text-center">Eliminar</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="border-top-0">
+                    <c:forEach var="camion" items="${camiones}">
+                        <tr>
+                            <td class="fw-semibold text-dark">${camion.placa}</td>
+                            <td>${camion.modelo}</td>
+                            <td>${camion.capacidad}</td>
+                            <td class="fw-medium">${camion.estado}</td>
+
+                            <td class="text-center">
+                                <a href="${pageContext.request.contextPath}/camiones?accion=editar&id=${camion.id}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Editar
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a onclick="return confirm('¿Deseas eliminar este registro?')"
+                                   href="${pageContext.request.contextPath}/camiones?accion=eliminar&id=${camion.id}"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
 
     </div>
+</div>
 </body>
 </html>

@@ -10,69 +10,93 @@
     <jsp:include page="/includes/imports.jsp" />
 </head>
 
-<body>
+<body class="bg-light">
 
-    <jsp:include page="/includes/header.jsp" />
+<jsp:include page="/includes/header.jsp" />
 
-    <div>
+<div class="container mt-5 mb-5">
 
-        <h2>${(usuario.id != null && usuario.id > 0) ? "Editar Usuario" : "Nuevo Usuario"}</h2>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
 
-        <form action="${pageContext.request.contextPath}/usuarios" method="POST">
+            <div class="card shadow-sm border-0 rounded-4">
 
-            <input type="hidden" name="accion" value="guardar">
-            <input type="hidden" name="id" value="${usuario.id}">
+                <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4 text-center">
+                    <h2 class="h4 mb-0 text-dark fw-bold">
+                        ${(usuario.id != null && usuario.id > 0) ? "Editar Usuario" : "Nuevo Usuario"}
+                    </h2>
+                </div>
 
-            <div>
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" id="nombre" value="${usuario.nombre}">
+                <div class="card-body p-4 p-md-5">
+                    <form action="${pageContext.request.contextPath}/usuarios" method="POST">
+
+                        <input type="hidden" name="accion" value="guardar">
+                        <input type="hidden" name="id" value="${usuario.id}">
+
+                        <h5 class="text-primary border-bottom pb-2 mb-4">Datos Personales</h5>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label for="nombre" class="form-label fw-semibold text-secondary">Nombre:</label>
+                                <input type="text" name="nombre" id="nombre" value="${usuario.nombre}" class="form-control form-control-lg">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="apellidoPaterno" class="form-label fw-semibold text-secondary">Apellido Paterno:</label>
+                                <input type="text" name="apellidoPaterno" id="apellidoPaterno" value="${usuario.apellidoPaterno}" class="form-control form-control-lg">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="apellidoMaterno" class="form-label fw-semibold text-secondary">Apellido Materno:</label>
+                                <input type="text" name="apellidoMaterno" id="apellidoMaterno" value="${usuario.apellidoMaterno}" class="form-control form-control-lg">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label fw-semibold text-secondary">Telefono:</label>
+                                <input type="text" name="telefono" id="telefono" value="${usuario.telefono}" class="form-control form-control-lg">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="email" class="form-label fw-semibold text-secondary">Email:</label>
+                                <input type="email" name="email" id="email" value="${usuario.email}" class="form-control form-control-lg">
+                            </div>
+                        </div>
+
+                        <h5 class="text-primary border-bottom pb-2 mb-4 mt-5">Credenciales y Acceso</h5>
+
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-6">
+                                <label for="username" class="form-label fw-semibold text-secondary">Usuario:</label>
+                                <input type="text" name="username" id="username" value="${usuario.username}" class="form-control form-control-lg bg-light">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="password" class="form-label fw-semibold text-secondary">Contraseña:</label>
+                                <input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="${(usuario.id != null && usuario.id > 0) ? "Dejar vacio para conservar la contraseña" : ""}">
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <label for="cargo" class="form-label fw-semibold text-secondary">Cargo / Nivel de Acceso:</label>
+                                <select name="cargo" id="cargo" class="form-select form-select-lg">
+                                    <option value="">--- Seleccionar ---</option>
+                                    <option value="ADMINISTRADOR" ${(usuario.cargo == "ADMINISTRADOR") ? "selected" : ""}>Administrador</option>
+                                    <option value="LOGISTICA" ${(usuario.cargo == "LOGISTICA") ? "selected" : ""}>Logística</option>
+                                    <option value="MANTENIMIENTO" ${(usuario.cargo == "MANTENIMIENTO") ? "selected" : ""}>Mantenimiento</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-5">
+                            <input type="submit" value="${(usuario.id != null && usuario.id > 0) ? "Actualizar" : "Crear"}" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                        </div>
+
+                    </form>
+                </div>
+
             </div>
-
-            <div>
-                <label for="apellidoPaterno">Apellido Paterno:</label>
-                <input type="text" name="apellidoPaterno" id="apellidoPaterno" value="${usuario.apellidoPaterno}">
-            </div>
-
-            <div>
-                <label for="apellidoMaterno">Apellido Materno:</label>
-                <input type="text" name="apellidoMaterno" id="apellidoMaterno" value="${usuario.apellidoMaterno}">
-            </div>
-
-            <div>
-                <label for="telefono">Telefono:</label>
-                <input type="text" name="telefono" id="telefono" value="${usuario.telefono}">
-            </div>
-
-            <div>
-                <label for="username">Usuario:</label>
-                <input type="text" name="username" id="username" value="${usuario.username}">
-            </div>
-
-            <div>
-                <label for="password">Contraseña:</label>
-                <input type="password" name="password" id="password" placeholder="${(usuario.id != null && usuario.id > 0) ? "Dejar vacio para conservar la contraseña" : ""}">
-            </div>
-
-            <div>
-                <label for="email">Email:</label>
-                <input type="text" name="email" id="email" value="${usuario.email}">
-            </div>
-
-            <div>
-                <label for="cargo">Cargo:</label>
-                <select name="cargo" id="cargo">
-                    <option value="">--- Seleccionar ---</option>
-                    <option value="ADMINISTRADOR" ${(usuario.cargo == "ADMINISTRADOR") ? "selected" : ""}>Administrador</option>
-                    <option value="LOGISTICA" ${(usuario.cargo == "LOGISTICA") ? "selected" : ""}>Logistica</option>
-                    <option value="MANTENIMIENTO" ${(usuario.cargo == "MANTENIMIENTO") ? "selected" : ""}>Mantenimiento</option>
-                </select>
-            </div>
-
-            <div>
-                <input type="submit" value="${(usuario.id != null && usuario.id > 0) ? "Actualizar" : "Crear"}">
-            </div>
-        </form>
-
+        </div>
     </div>
+</div>
+
 </body>
 </html>

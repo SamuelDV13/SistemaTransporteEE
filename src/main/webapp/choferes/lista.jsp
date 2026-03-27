@@ -11,41 +11,80 @@
     <jsp:include page="/includes/imports.jsp" />
 </head>
 
-<body>
+<body class="bg-light">
 
-    <jsp:include page="/includes/header.jsp" />
+<jsp:include page="/includes/header.jsp" />
 
-    <div>
+<div class="container mt-5 mb-5">
 
-        <h2>Lista de choferes</h2>
+    <div class="card shadow-sm border-0 rounded-4">
 
-        <a href="${pageContext.request.contextPath}/choferes?accion=nuevo">Nuevo [+]</a>
+        <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
+            <h2 class="h4 mb-0 text-dark fw-bold">Lista de choferes</h2>
+            <a href="${pageContext.request.contextPath}/choferes?accion=nuevo" class="btn btn-primary fw-semibold shadow-sm">
+                Nuevo [+]
+            </a>
+        </div>
 
-        <table>
-            <tr>
-                <th>Nombre</th>
-                <th>Telefono</th>
-                <th>Numero de licencia</th>
-                <th>Estado</th>
-                <th>Editar</th>
-                <th>Comisiones</th>
-                <th>Eliminar</th>
-            </tr>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
 
-            <c:forEach var="chofer" items="${choferes}">
-                <tr>
-                    <td>${chofer.nombre} ${chofer.apellidoPaterno} ${chofer.apellidoMaterno}</td>
-                    <td>${chofer.telefono}</td>
-                    <td>${(chofer.licencia.numeroLicencia != null) ? chofer.licencia.numeroLicencia : "Sin licencia"}</td>
-                    <td>${chofer.estado}</td>
-                    <td><a href="${pageContext.request.contextPath}/choferes?accion=editar&id=${chofer.id}">Editar</a></td>
-                    <td><a href="${pageContext.request.contextPath}/choferes?accion=mostrarViajes&id=${chofer.id}">Ver</a></td>
-                    <td><a onclick="return confirm('¿Deseas eliminar este registro?')"
-                            href="${pageContext.request.contextPath}/choferes?accion=eliminar&id=${chofer.id}">Eliminar</a></td>
-                </tr>
-            </c:forEach>
-        </table>
+                    <thead class="table-light text-secondary">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Numero de licencia</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col" class="text-center">Editar</th>
+                        <th scope="col" class="text-center">Comisiones</th>
+                        <th scope="col" class="text-center">Eliminar</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="border-top-0">
+                    <c:forEach var="chofer" items="${choferes}">
+                        <tr>
+                            <td class="fw-semibold text-dark">
+                                    ${chofer.nombre} ${chofer.apellidoPaterno} ${chofer.apellidoMaterno}
+                            </td>
+                            <td>${chofer.telefono}</td>
+
+                            <td class="${(chofer.licencia.numeroLicencia == null) ? 'text-muted fst-italic' : ''}">
+                                    ${(chofer.licencia.numeroLicencia != null) ? chofer.licencia.numeroLicencia : "Sin licencia"}
+                            </td>
+
+                            <td class="fw-medium">${chofer.estado}</td>
+
+                            <td class="text-center">
+                                <a href="${pageContext.request.contextPath}/choferes?accion=editar&id=${chofer.id}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Editar
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="${pageContext.request.contextPath}/choferes?accion=mostrarViajes&id=${chofer.id}"
+                                   class="btn btn-sm btn-outline-success fw-medium">
+                                    Ver
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a onclick="return confirm('¿Deseas eliminar este registro?')"
+                                   href="${pageContext.request.contextPath}/choferes?accion=eliminar&id=${chofer.id}"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
 
     </div>
+</div>
+
 </body>
 </html>

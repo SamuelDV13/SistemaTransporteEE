@@ -11,39 +11,72 @@
     <jsp:include page="/includes/imports.jsp" />
 </head>
 
-<body>
-    <jsp:include page="/includes/header.jsp" />
+<body class="bg-light">
+<jsp:include page="/includes/header.jsp" />
 
-    <div>
-        <h1>Bienvenido ${sessionScope.usuarioLogueado.nombre} !!Que gusto verte de nuevo!!</h1>
-        <h2>Panel de Control</h2>
+<div class="container mt-5">
 
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="display-6 fw-bold text-primary">¡Bienvenido, ${sessionScope.usuarioLogueado.nombre}!</h1>
+            <p class="lead text-secondary">Qué gusto verte de nuevo por aquí.</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="h4 border-bottom pb-2 text-dark">Panel de Control</h2>
+        </div>
+    </div>
+
+    <div class="row g-4">
 
         <c:if test="${sessionScope.usuarioLogueado.cargo == 'LOGISTICA' || sessionScope.usuarioLogueado.cargo == 'ADMINISTRADOR'}">
-            <div>
-                <h3>Viajes en Ruta: ${kpis.viajesEnRuta}</h3>
+            <div class="col-md-6 col-lg-3">
+                <div class="card text-bg-primary shadow-sm h-100 border-0 rounded-4">
+                    <div class="card-body text-center mt-3 mb-3">
+                        <h6 class="card-title text-uppercase fw-semibold mb-3">Viajes en Ruta</h6>
+                        <h2 class="display-5 fw-bold mb-0">${kpis.viajesEnRuta}</h2>
+                    </div>
+                </div>
             </div>
         </c:if>
 
         <c:if test="${sessionScope.usuarioLogueado.cargo == 'LOGISTICA' || sessionScope.usuarioLogueado.cargo == 'ADMINISTRADOR'}">
-        <div>
-            <h3>Camiones Disponibles: ${kpis.camionesDisponibles}</h3>
-        </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card text-bg-info shadow-sm h-100 border-0 rounded-4">
+                    <div class="card-body text-center mt-3 mb-3 text-white">
+                        <h6 class="card-title text-uppercase fw-semibold mb-3">Camiones Disponibles</h6>
+                        <h2 class="display-5 fw-bold mb-0">${kpis.camionesDisponibles}</h2>
+                    </div>
+                </div>
+            </div>
         </c:if>
 
         <c:if test="${sessionScope.usuarioLogueado.cargo == 'LOGISTICA' || sessionScope.usuarioLogueado.cargo == 'ADMINISTRADOR'}">
-        <div>
-            <h3>Choferes Libres: ${kpis.choferesLibres}</h3>
-        </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card text-bg-warning shadow-sm h-100 border-0 rounded-4">
+                    <div class="card-body text-center mt-3 mb-3">
+                        <h6 class="card-title text-uppercase fw-semibold mb-3 text-dark">Choferes Libres</h6>
+                        <h2 class="display-5 fw-bold mb-0 text-dark">${kpis.choferesLibres}</h2>
+                    </div>
+                </div>
+            </div>
         </c:if>
 
         <c:if test="${sessionScope.usuarioLogueado.cargo == 'ADMINISTRADOR'}">
-        <div>
-            <h3>Ingresos del Mes: ${kpis.gananciasMes}</h3>
-        </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card text-bg-success shadow-sm h-100 border-0 rounded-4">
+                    <div class="card-body text-center mt-3 mb-3">
+                        <h6 class="card-title text-uppercase fw-semibold mb-3">Ingresos del Mes</h6>
+                        <h2 class="display-5 fw-bold mb-0">$ ${kpis.gananciasMes}</h2>
+                    </div>
+                </div>
+            </div>
         </c:if>
 
     </div>
+</div>
 
 </body>
 </html>
